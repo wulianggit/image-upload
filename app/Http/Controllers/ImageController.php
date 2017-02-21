@@ -29,7 +29,8 @@ class ImageController extends Controller
         $policy = [
             'saveKey'=>$filename,
             'callbackUrl' => 'http://123.56.220.231',
-            'callbackBody' => 'newname='.$filename
+            'callbackBody' => 'filename='.$filename,
+            'callbackBodyType'=>"application/x-www-form-urlencoded"
         ];
 
         // 要上传的空间
