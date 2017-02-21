@@ -76,8 +76,9 @@ class CallbackController extends Controller
         curl_setopt($ch, CURLOPT_POST, 1 );
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields );
         curl_exec( $ch );
-        if ($error = curl_error($ch) ) {
-              Log::info('errors:'.var_export($error,1));
+        if ($error = curl_errno($ch)) {
+            Log::info('errorsCode:'.var_export($error,1));
+            Log::info('errorsInfo:'.var_export(curl_getinfo($ch),1));
         }
         $return_data = curl_exec($ch);
         curl_close($ch);
