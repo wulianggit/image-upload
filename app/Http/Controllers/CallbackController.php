@@ -50,7 +50,7 @@ class CallbackController extends Controller
         Log::info('downloadUrl:'.$downloadUrl);
         $filePath = storage_path().$data['filename'];
         Log::info('filePath:'.$filePath);
-        file_put_contents($filePath,$downloadUrl);
+        file_put_contents($filePath,'http://'.$downloadUrl);
         $ret = $this->upload_file($url,$data['filename']);
         Log::info('result:'.var_export($ret,1));
     }
