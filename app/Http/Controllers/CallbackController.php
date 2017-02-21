@@ -58,15 +58,16 @@ class CallbackController extends Controller
         Log::info('fileinfo:'.var_export($fileinfo, 1));
         $filePath = storage_path().'/'.$fileinfo[2];
         Log::info('filePath:'.$filePath);
-        file_put_contents($filePath,'http://'.$downloadUrl);
-        $ret = $this->upload_file($url,$data['filename']);
+        //file_put_contents($filePath,'http://'.$downloadUrl);
+        //$ret = $this->upload_file($url,$data['filename']);
+        $ret = $this->upload_file($url,'http://'.$downloadUrl);
         Log::info('result:'.var_export($ret,1));
     }
     
     public function upload_file($url,$filename){
-        $fileinfo = explode('/',$filename);
-        $file = realpath(storage_path().'/'.$fileinfo[2]);
-        $fields['f'] = new \CURLFile($file);
+        //$fileinfo = explode('/',$filename);
+        //$file = realpath(storage_path().'/'.$fileinfo[2]);
+        $fields['f'] = new \CURLFile($filename);
         $fields['type'] = 1;
         Log::info("realpath:".var_export($fields,1));
         $ch = curl_init();
