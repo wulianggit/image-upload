@@ -48,7 +48,9 @@ class CallbackController extends Controller
         Log::info('data:'.var_export($data, 1));
         $downloadUrl = env('QINIU_DOMAINS_DEFAULT').'/'.$data['filename'];
         Log::info('downloadUrl:'.$downloadUrl);
-        $filePath = storage_path().array_pop(explode('/',$data['filename']));
+        $fileinfo = explode('/',$data['filename']);
+        Log::info('fileinfo:'.var_export($fileinfo, 1));
+        $filePath = storage_path().$fileinfo[2];
         Log::info('filePath:'.$filePath);
         file_put_contents($filePath,'http://'.$downloadUrl);
         $ret = $this->upload_file($url,$data['filename']);
