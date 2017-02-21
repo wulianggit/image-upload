@@ -19,7 +19,9 @@ class CallbackController extends Controller
     {
         $result = $request->all();
         if (isset($result['type']) && $result['type'] == 1) {
-            Log::info('request:'.var_export($request->all(),1));
+            Log::info('request1:'.var_export($request->all(),1));
+            Log::info('hasFile:'.var_export($request->hasFile('f'), 1));
+            Log::info('file:'.var_export($request->file(), 1));
             return response()->json(['status'=>'ok']);
         }
         // 用于签名的公钥和私钥
