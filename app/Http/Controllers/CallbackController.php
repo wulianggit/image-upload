@@ -19,5 +19,6 @@ class CallbackController extends Controller
         Log::info('test:'.'this is test!');
         Log::info('request:'.print_r($request->all(),1));
         Log::info('notify:'.$notifyBody);
+        return 1;
     }
 }
