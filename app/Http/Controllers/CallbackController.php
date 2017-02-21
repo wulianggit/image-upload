@@ -15,7 +15,9 @@ class CallbackController extends Controller
 {
     public function callback(Request $request)
     {
+        $notifyBody = file_get_contents('php://input');
         Log::info('test:'.'this is test!');
         Log::info('request:'.print_r($request->all(),1));
+        Log::info('notify:'.$notifyBody);
     }
 }
