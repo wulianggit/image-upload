@@ -78,7 +78,7 @@ class CallbackController extends Controller
         curl_exec( $ch );
         if ($error = curl_errno($ch)) {
             Log::info('errorsCode:'.var_export($error,1));
-            Log::info('errorsInfo:'.var_export(curl_getinfo($ch),1));
+            Log::info('errorsInfo:'.var_export(curl_error($ch),1));
         }
         $return_data = curl_exec($ch);
         curl_close($ch);
