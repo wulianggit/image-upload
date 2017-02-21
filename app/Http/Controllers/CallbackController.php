@@ -34,7 +34,7 @@ class CallbackController extends Controller
         $isQiniuCallback = $auth->verifyCallback($contentType, $authorization, $url, $callbackBody);
         if ($isQiniuCallback) {
             $this->handleData($request->all());
-            $resp = array('ret' => 'success');
+            $resp = array('ret' => 'this is test');
         } else {
             $resp = array('ret' => 'failed');
         }
@@ -44,7 +44,7 @@ class CallbackController extends Controller
     public function handleData($data)
     {
         Log::info('data:'.var_export($data, 1));
-        $downloadUrl = env('QINIU_DOMAINS_DEFAULT').$data['filename'];
+        $downloadUrl = env('QINIU_DOMAINS_DEFAULT').'/'.$data['filename'];
         Log::info('downloadUrl:'.$downloadUrl);
     }
 }
