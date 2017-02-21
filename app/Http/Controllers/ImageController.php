@@ -30,7 +30,7 @@ class ImageController extends Controller
             'saveKey'=>$filename,
             'callbackUrl' => 'http://123.56.220.231',
             'callbackBody' => 'filename='.$filename,
-            'callbackBodyType'=>"application/json"
+            'callbackBodyType'=>"application/x-www-form-urlencoded"
         ];
 
         // 要上传的空间
