@@ -44,18 +44,33 @@ class CallbackController extends Controller
 
     public function handleData($data)
     {
-        // 用于签名的公钥和私钥
-        $accessKey = env('QINIU_AXXESS_KEY');
-        $secretKey = env('QINIU_SECRET_KEY');
-        // 初始化签权对象
-        $auth = new Auth($accessKey, $secretKey);
+        $url = 'http://123.56.220.231';
         Log::info('data:'.var_export($data, 1));
         $downloadUrl = env('QINIU_DOMAINS_DEFAULT').'/'.$data['filename'];
         Log::info('downloadUrl:'.$downloadUrl);
-        $token = $auth->uploadToken('boolstyleblog');
-        $uploadMgr = new UploadManager();
-        list($ret, $err) = $uploadMgr->putFile($token, $data['filename'], file_get_contents('http://'.$downloadUrl));
+        $ret = $this->upload_file($url,$data['filename'], $downloadUrl, 'image/png');
         Log::info('result:'.var_export($ret,1));
-        Log::info('errors:'.var_export($err,1));
+    }
+    
+    public function upload_file($url,$filename,$path,$type){
+        $data = array(
+            'pic'=>new CURLFile(realpath($path))
+        );
+        $ch = curl_init();
+
+       //也可以用以下注释掉的不用改代码，觉得新版的可以省下点代码，看个人
+    
+       //curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
+    
+       //设置帐号和帐号名
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true );
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $return_data = curl_exec($ch);
+        curl_close($ch);
+        echo $return_data; 
     }
 }
