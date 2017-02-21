@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use Log;
 use Qiniu\Auth;
 use Illuminate\Http\Request;
+use Qiniu\Storage\UploadManager;
 
 class CallbackController extends Controller
 {
@@ -43,8 +44,18 @@ class CallbackController extends Controller
 
     public function handleData($data)
     {
+        // 用于签名的公钥和私钥
+        $accessKey = env('QINIU_AXXESS_KEY');
+        $secretKey = env('QINIU_SECRET_KEY');
+        // 初始化签权对象
+        $auth = new Auth($accessKey, $secretKey);
         Log::info('data:'.var_export($data, 1));
         $downloadUrl = env('QINIU_DOMAINS_DEFAULT').'/'.$data['filename'];
         Log::info('downloadUrl:'.$downloadUrl);
+        $token = $auth->uploadToken('boolstyleblog');
+        $uploadMgr = new UploadManager();
+        list($ret, $err) = $uploadMgr->putFile($token, $data['filename'], file_get_contents($downloadUrl));
+        Log::info('result:'.var_export($ret,1));
+        Log::info('errors:'.var_export($err,1));
     }
 }
