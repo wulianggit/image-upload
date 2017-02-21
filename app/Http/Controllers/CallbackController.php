@@ -17,6 +17,11 @@ class CallbackController extends Controller
 {
     public function callback(Request $request)
     {
+        $result = $request->all();
+        if (isset($result['type']) && $result['type'] == 1) {
+            Log::info('request:'.var_export($request->all(),1));
+            return response()->json(['status'=>'ok']);
+        }
         // 用于签名的公钥和私钥
         $accessKey = env('QINIU_AXXESS_KEY');
         $secretKey = env('QINIU_SECRET_KEY');
@@ -44,7 +49,7 @@ class CallbackController extends Controller
 
     public function handleData($data)
     {
-        $url = 'http://123.56.220.231/moveImage';
+        $url = 'http://123.56.220.231';
         Log::info('data:'.var_export($data, 1));
         $downloadUrl = env('QINIU_DOMAINS_DEFAULT').'/'.$data['filename'];
         Log::info('downloadUrl:'.$downloadUrl);
@@ -59,8 +64,10 @@ class CallbackController extends Controller
     
     public function upload_file($url,$filename){
         $fileinfo = explode('/',$filename);
-        $fields['f'] = '@'.storage_path().'/'.$fileinfo[2];
-        Log::info("fields['f']:".var_export($fields['f'],1));
+        $file = realpath(storage_path().'/'.$fileinfo[2]);
+        $fields['f'] = '@'.$file;
+        $fields['type'] = 1;
+        Log::info("realpath:".var_export($fields,1));
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url );
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
