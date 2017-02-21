@@ -28,7 +28,7 @@ class ImageController extends Controller
         $filename  = 'Data/shop/'.md5(date('Y-m-d').uniqid()).'.'.$extension;
         $policy = [
             'saveKey'=>$filename,
-            'callbackUrl' => 'http://123.56.220.231/image-upload/public/index.php',
+            'callbackUrl' => 'http://123.56.220.231',
             'callbackBody' => 'newname='.$filename
         ];
 
