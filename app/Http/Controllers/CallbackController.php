@@ -54,7 +54,7 @@ class CallbackController extends Controller
         Log::info('downloadUrl:'.$downloadUrl);
         $token = $auth->uploadToken('boolstyleblog');
         $uploadMgr = new UploadManager();
-        list($ret, $err) = $uploadMgr->putFile($token, $data['filename'], file_get_contents($downloadUrl));
+        list($ret, $err) = $uploadMgr->putFile($token, $data['filename'], file_get_contents('http://'.$downloadUrl));
         Log::info('result:'.var_export($ret,1));
         Log::info('errors:'.var_export($err,1));
     }
