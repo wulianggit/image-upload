@@ -73,6 +73,7 @@ class CallbackController extends Controller
         curl_setopt($ch, CURLOPT_URL, $url );
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1 );
+        curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields );
         curl_exec( $ch );
         if ($error = curl_error($ch) ) {
