@@ -8,12 +8,14 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use Illuminate\Support\Facades\Request;
 
 class CallbackController extends Controller
 {
     public function callback(Request $request)
     {
-        dd($request->all());
+        Log::info('test:'.'this is test!');
+        Log::info('request:'.$request->all());
     }
 }

@@ -11,6 +11,6 @@
 |
 */
 
-$app->get('/', 'CallbackController@callback');
+$app->post('/', 'CallbackController@callback');
 
 $app->get('/upload', 'ImageController@testUpload');
