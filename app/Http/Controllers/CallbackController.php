@@ -16,6 +16,6 @@ class CallbackController extends Controller
     public function callback(Request $request)
     {
         Log::info('test:'.'this is test!');
-        Log::info('request:'.$request->all());
+        Log::info('request:'.print_r($request->all(),1));
     }
 }
