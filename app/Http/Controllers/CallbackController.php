@@ -16,9 +16,6 @@ class CallbackController extends Controller
 {
     public function callback(Request $request)
     {
-        Log::info('server:'.print_r($_SERVER,1));
-        Log::info('request-server:'.$request->server('SERVER_SOFTWARE'));
-        return 1;
         // 用于签名的公钥和私钥
         $accessKey = env('QINIU_AXXESS_KEY');
         $secretKey = env('QINIU_SECRET_KEY');
@@ -27,14 +24,15 @@ class CallbackController extends Controller
         $callbackBody = file_get_contents('php://input');//获取回调的body信息
         $contentType = 'application/x-www-form-urlencoded';
         //获取http头部的authorization 这里不同的服务器采用不同的方法来获取http头部
-        if (strstr($_SERVER["SERVER_SOFTWARE"],"Apache")) {
+        if (strstr($request->server('SERVER_SOFTWARE'),"Apache")) {
             $data=apache_request_headers();
             $authorization = $data['Authorization'];
         } else {
-            $authorization = $_SERVER['HTTP_AUTHORIZATION'];
+            $authorization = $request->server('HTTP_AUTHORIZATION');
         }
         $url = 'http://123.56.220.231';
         $isQiniuCallback = $auth->verifyCallback($contentType, $authorization, $url, $callbackBody);
+        Log::info('isCallback'.var_dump($isQiniuCallback,1));
         if ($isQiniuCallback) {
             $resp = array('ret' => 'success');
         } else {
