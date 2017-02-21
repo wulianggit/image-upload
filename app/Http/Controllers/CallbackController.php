@@ -82,6 +82,6 @@ class CallbackController extends Controller
         }
         $return_data = curl_exec($ch);
         curl_close($ch);
-        echo $return_data; 
+        return $return_data;
     }
 }
