@@ -22,7 +22,7 @@ class CallbackController extends Controller
         // 初始化签权对象
         $auth = new Auth($accessKey, $secretKey);
         $callbackBody = file_get_contents('php://input');//获取回调的body信息
-        $contentType = 'application/x-www-form-urlencoded';
+        $contentType = 'application/json';
         //获取http头部的authorization 这里不同的服务器采用不同的方法来获取http头部
         if (strstr($request->server('SERVER_SOFTWARE'),"Apache")) {
             $data=apache_request_headers();
@@ -32,7 +32,9 @@ class CallbackController extends Controller
         }
         $url = 'http://123.56.220.231';
         $isQiniuCallback = $auth->verifyCallback($contentType, $authorization, $url, $callbackBody);
-        Log::info('isCallback'.var_dump($isQiniuCallback,1));
+        Log::info('isCallback:'.var_dump($isQiniuCallback,1));
+        Log::info('callbackBody1:'.var_dump($callbackBody,1));
+        Log::info('callbackBody2:'.var_dump($request->all(),1));
         if ($isQiniuCallback) {
             $resp = array('ret' => 'success');
         } else {
