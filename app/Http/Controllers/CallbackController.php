@@ -17,8 +17,8 @@ class CallbackController extends Controller
     public function callback(Request $request)
     {
         Log::info('server:'.print_r($_SERVER,1));
-        Log::info('request-header:'.$request->header());
-        Log::info('request-server:'.$request->server());
+        Log::info('request-header:'.print_r($request->header(),1));
+        Log::info('request-server:'.print_r($request->server(),1));
         return 1;
         // 用于签名的公钥和私钥
         $accessKey = env('QINIU_AXXESS_KEY');
