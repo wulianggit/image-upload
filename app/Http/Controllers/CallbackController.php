@@ -33,6 +33,7 @@ class CallbackController extends Controller
         $url = 'http://123.56.220.231';
         $isQiniuCallback = $auth->verifyCallback($contentType, $authorization, $url, $callbackBody);
         Log::info('isCallback:'.var_export($isQiniuCallback,1));
+        Log::info('authorization:'.var_export($authorization,1));
         Log::info('callbackBody:'.var_export($callbackBody,1));
         if ($isQiniuCallback) {
             $resp = array('ret' => 'success');
