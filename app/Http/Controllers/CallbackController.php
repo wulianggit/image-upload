@@ -44,31 +44,29 @@ class CallbackController extends Controller
 
     public function handleData($data)
     {
-        $url = 'http://123.56.220.231';
+        $url = 'http://123.56.220.231/moveImage';
         Log::info('data:'.var_export($data, 1));
         $downloadUrl = env('QINIU_DOMAINS_DEFAULT').'/'.$data['filename'];
         Log::info('downloadUrl:'.$downloadUrl);
-        $ret = $this->upload_file($url,$data['filename'], $downloadUrl, 'image/png');
+        $filePath = storage_path().$data['filename'];
+        Log::info('filePath:'.$filePath);
+        file_put_contents($filePath,$downloadUrl);
+        $ret = $this->upload_file($url,$data['filename']);
         Log::info('result:'.var_export($ret,1));
     }
     
-    public function upload_file($url,$filename,$path,$type){
-        $data = array(
-            'pic'=>new CURLFile(realpath($path))
-        );
+    public function upload_file($url,$filename){
+        $fields['f'] = '@'.storage_path().$filename;
+        Log::info("fields['f']:".var_export($fields['f'],1));
         $ch = curl_init();
-
-       //也可以用以下注释掉的不用改代码，觉得新版的可以省下点代码，看个人
-    
-       //curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
-    
-       //设置帐号和帐号名
-
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true );
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url );
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1 );
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields );
+        curl_exec( $ch );
+        if ($error = curl_error($ch) ) {
+              Log::info('errors:'.$error);
+        }
         $return_data = curl_exec($ch);
         curl_close($ch);
         echo $return_data; 

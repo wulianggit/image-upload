@@ -14,3 +14,4 @@
 $app->post('/', 'CallbackController@callback');
 
 $app->get('/upload', 'ImageController@testUpload');
+$app->get('/moveImage', 'MoveImageController@moveImage');
