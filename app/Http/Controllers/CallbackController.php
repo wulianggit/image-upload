@@ -67,7 +67,7 @@ class CallbackController extends Controller
     public function upload_file($url,$filename){
         //$fileinfo = explode('/',$filename);
         //$file = realpath(storage_path().'/'.$fileinfo[2]);
-        $fields['f'] = new \CURLFile($filename);
+        $fields['f'] = new \CURLFile(realpath($filename));
         $fields['type'] = 1;
         Log::info("realpath:".var_export($fields,1));
         $ch = curl_init();
