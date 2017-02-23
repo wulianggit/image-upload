@@ -32,7 +32,7 @@ class CallbackController extends Controller
                 'upfile'=>"@".$_FILE,//绝对路径
             );
             $url =  "http://imgtest.boqii.com/Server/upload.php";
-            $result = post_url($url,$post_data);
+            $result = $this->post_url($url,$post_data);
             Log::info('result:'.var_export($result,1));
             return response()->json(['status'=>'ok']);
         }
