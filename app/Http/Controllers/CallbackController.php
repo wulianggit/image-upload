@@ -107,9 +107,9 @@ class CallbackController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);   //CURLOPT_POSTFIELDS  全部数据使用HTTP协议中的"POST"操作来发送。要发送文件，在文件名前面加上@前缀并使用完整路径。这个参数可以通过urlencoded后的字符串类似'para1=val1&para2=val2&...'或使用一个以字段名为键值，字段数据为值的数组。如果value是一个数组，Content-Type头将会被设置成multipart/form-data。
         curl_setopt($ch, CURLOPT_TIMEOUT, $time);
         $output = curl_exec($ch);
-        Log::info('curl_errno:'.curl_errno());
-        Log::info('curl_error:'.curl_error());
-        Log::info('curl_info:'.curl_getinfo());
+        Log::info('curl_errno:'.curl_errno($ch));
+        Log::info('curl_error:'.curl_error($ch));
+        Log::info('curl_info:'.curl_getinfo($ch));
         curl_close($ch);
         return $output;
     }
