@@ -78,16 +78,24 @@ class CallbackController extends Controller
     }
     
     public function upload_file($url,$filename){
+        $url =  "http://img.boqii.com/Server/upload.php";
         $fileinfo = explode('/',$filename);
         $file = realpath(storage_path().'/'.$fileinfo[2]);
-        $fields['f'] = new \CURLFile(realpath($file));
-        $fields['type'] = 1;
-        Log::info("realpath:".var_export($fields,1));
+        $fields= new \CURLFile(realpath($file));
+        $post_data = array(
+            'id' => 0,
+            'type'=>1,
+            'aucode' => "boqii",
+            'subtype' => 'coupon',
+            'method' => 'ajax',
+            'upfile'=> $fields,//绝对路径
+        );
+        Log::info("realpath:".var_export($post_data,1));
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url );
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1 );
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields );
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data );
         curl_exec( $ch );
         if ($error = curl_errno($ch)) {
             Log::info('errorsCode:'.var_export($error,1));
@@ -95,6 +103,7 @@ class CallbackController extends Controller
         }
         $return_data = curl_exec($ch);
         curl_close($ch);
+        Log::info('return_data:'.$return_data);
         return $return_data;
     }
 
