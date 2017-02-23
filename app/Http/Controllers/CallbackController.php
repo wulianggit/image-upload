@@ -97,4 +97,17 @@ class CallbackController extends Controller
         curl_close($ch);
         return $return_data;
     }
+
+    public function post_url($url,$post_data,$time=100){
+        $time = ($time<=30)?$time:30;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);        //CURLOPT_URL  需要获取的URL地址
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);    //CURLOPT_RETURNTRANSFER   将curl_exec()获取的信息以文件流的形式返回，而不是直接输出。
+        curl_setopt($ch, CURLOPT_POST, 1);  //CURLOPT_POST  启用时会发送一个常规的POST请求，类型为：application/x-www-form-urlencoded，就像表单提交的一样。
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);   //CURLOPT_POSTFIELDS  全部数据使用HTTP协议中的"POST"操作来发送。要发送文件，在文件名前面加上@前缀并使用完整路径。这个参数可以通过urlencoded后的字符串类似'para1=val1&para2=val2&...'或使用一个以字段名为键值，字段数据为值的数组。如果value是一个数组，Content-Type头将会被设置成multipart/form-data。
+        curl_setopt($ch, CURLOPT_TIMEOUT, $time);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
 }
