@@ -53,8 +53,8 @@ class CallbackController extends Controller
         $url = 'http://123.56.220.231';
         $isQiniuCallback = $auth->verifyCallback($contentType, $authorization, $url, $callbackBody);
         if ($isQiniuCallback) {
-            $this->handleData($request->all());
-            $resp = array('ret' => 'this is test');
+            return $this->handleData($request->all());
+            //$resp = array('ret' => 'this is test');
         } else {
             $resp = array('ret' => 'failed');
         }
@@ -72,9 +72,9 @@ class CallbackController extends Controller
         $filePath = storage_path().'/'.$fileinfo[2];
         Log::info('filePath:'.$filePath);
         file_put_contents($filePath,'http://'.$downloadUrl);
-        $ret = $this->upload_file($url,$data['filename']);
+        return $ret = $this->upload_file($url,$data['filename']);
         //$ret = $this->upload_file($url,'http://'.$downloadUrl);
-        Log::info('result:'.var_export($ret,1));
+        //Log::info('result:'.var_export($ret,1));
     }
     
     public function upload_file($url,$filename){
