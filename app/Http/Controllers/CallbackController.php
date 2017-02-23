@@ -31,7 +31,7 @@ class CallbackController extends Controller
                 'method' => 'ajax',
                 'upfile'=>"@".$_FILE,//绝对路径
             );
-            $url = C('IMG_UPLOAD_DIR') ."/Server/upload.php";
+            $url =  "http://imgtest.boqii.com/Server/upload.php";
             $result = post_url($url,$post_data);
             Log::info('result:'.var_export($result,1));
             return response()->json(['status'=>'ok']);
