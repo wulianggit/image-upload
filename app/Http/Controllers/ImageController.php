@@ -23,7 +23,7 @@ class ImageController extends Controller
         $auth = new Auth($accessKey, $secretKey);
 
         // 要上传文件的本地路径
-        $filePath  = storage_path().'/images/php-logo.png';
+        $filePath  = storage_path().'/images/1111.jpg';
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
         $filename  = 'Data/shop/'.md5(date('Y-m-d').uniqid()).'.'.$extension;
         $policy = [
