@@ -31,7 +31,7 @@ class CallbackController extends Controller
                 'method' => 'ajax',
                 'upfile'=>"@".$_FILE,//绝对路径
             );
-            $url =  "http://imgtest.boqii.com/Server/upload.php";
+            $url =  "http://img.boqii.com/Server/upload.php";
             $result = $this->post_url($url,$post_data);
             Log::info('result_xx:'.var_export($result,1));
             return response()->json(['status'=>'ok']);
@@ -109,7 +109,6 @@ class CallbackController extends Controller
         $output = curl_exec($ch);
         Log::info('curl_errno:'.curl_errno($ch));
         Log::info('curl_error:'.curl_error($ch));
-        Log::info('curl_info:'.curl_getinfo($ch));
         curl_close($ch);
         return $output;
     }
