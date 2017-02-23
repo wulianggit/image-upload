@@ -86,7 +86,7 @@ class CallbackController extends Controller
             'id' => 0,
             'type'=>1,
             'aucode' => "boqii",
-            'subtype' => 'coupon',
+            'subtype' => 'article',
             'method' => 'ajax',
             'upfile'=> $fields,//绝对路径
         );
