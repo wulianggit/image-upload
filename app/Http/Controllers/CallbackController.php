@@ -22,7 +22,7 @@ class CallbackController extends Controller
             Log::info('request1:'.var_export($request->all(),1));
             Log::info('file:'.var_export($_FILES, 1));
             $file = $_FILES['upfile'];
-            $path = storage_path().'/images'.$file['name'];
+            $path = storage_path().'/images/'.$file['name'];
             Log::info('tmpname:'.var_export($file['tmp_name'],1));
             Log::info('path:'.var_export($path,1));
             if($res = move_uploaded_file($file['tmp_name'],$path)){
