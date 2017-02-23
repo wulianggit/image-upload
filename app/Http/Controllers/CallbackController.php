@@ -21,20 +21,15 @@ class CallbackController extends Controller
         if (isset($result['type']) && $result['type'] == 1) {
             Log::info('request1:'.var_export($request->all(),1));
             Log::info('file:'.var_export($_FILES, 1));
-            //需要上传的文件
-            $_FILE	= $_FILES['f']["tmp_name"];
-            $post_data = array(
-                'id' => 0,
-                'type'=>1,
-                'aucode' => "boqii",
-                'subtype' => 'coupon',
-                'method' => 'ajax',
-                'upfile'=>"@".$_FILE,//绝对路径
-            );
-            $url =  "http://img.boqii.com/Server/upload.php";
-            $result = $this->post_url($url,$post_data);
-            Log::info('result_xx:'.var_export($result,1));
-            return response($result);
+            $file = $_FILES['upfile'];
+            $path = storage_path().'/images'.$file['name'];
+            if(move_uploaded_file($file['tmp_name'],$path)){
+                echo "Successfully!";
+            }else{
+                echo "Failed!";
+            }
+            exit;
+           // return response($result);
         }
         // 用于签名的公钥和私钥
         $accessKey = env('QINIU_AXXESS_KEY');
@@ -78,16 +73,11 @@ class CallbackController extends Controller
     }
     
     public function upload_file($url,$filename){
-        $url =  "http://img.boqii.com/Server/upload.php";
         $fileinfo = explode('/',$filename);
         $file = realpath(storage_path().'/'.$fileinfo[2]);
         $fields= new \CURLFile(realpath($file));
         $post_data = array(
-            'id' => 0,
-            'type'=>1,
-            'aucode' => "boqii",
-            'subtype' => 'article',
-            'method' => 'ajax',
+            'type' => 1,
             'upfile'=> $fields,//绝对路径
         );
         Log::info("realpath:".var_export($post_data,1));
@@ -105,20 +95,5 @@ class CallbackController extends Controller
         curl_close($ch);
         Log::info('return_data:'.$return_data);
         return $return_data;
-    }
-
-    public function post_url($url,$post_data,$time=100){
-        $time = ($time<=30)?$time:30;
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);        //CURLOPT_URL  需要获取的URL地址
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);    //CURLOPT_RETURNTRANSFER   将curl_exec()获取的信息以文件流的形式返回，而不是直接输出。
-        curl_setopt($ch, CURLOPT_POST, 1);  //CURLOPT_POST  启用时会发送一个常规的POST请求，类型为：application/x-www-form-urlencoded，就像表单提交的一样。
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);   //CURLOPT_POSTFIELDS  全部数据使用HTTP协议中的"POST"操作来发送。要发送文件，在文件名前面加上@前缀并使用完整路径。这个参数可以通过urlencoded后的字符串类似'para1=val1&para2=val2&...'或使用一个以字段名为键值，字段数据为值的数组。如果value是一个数组，Content-Type头将会被设置成multipart/form-data。
-        curl_setopt($ch, CURLOPT_TIMEOUT, $time);
-        $output = curl_exec($ch);
-        Log::info('curl_errno:'.curl_errno($ch));
-        Log::info('curl_error:'.curl_error($ch));
-        curl_close($ch);
-        return $output;
     }
 }
