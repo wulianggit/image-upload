@@ -34,7 +34,7 @@ class CallbackController extends Controller
             $url =  "http://img.boqii.com/Server/upload.php";
             $result = $this->post_url($url,$post_data);
             Log::info('result_xx:'.var_export($result,1));
-            return response()->json(['status'=>'ok']);
+            return response($result);
         }
         // 用于签名的公钥和私钥
         $accessKey = env('QINIU_AXXESS_KEY');
