@@ -21,6 +21,19 @@ class CallbackController extends Controller
         if (isset($result['type']) && $result['type'] == 1) {
             Log::info('request1:'.var_export($request->all(),1));
             Log::info('file:'.var_export($_FILES, 1));
+            //需要上传的文件
+            $_FILE	= $_FILES['f']["tmp_name"];
+            $post_data = array(
+                'id' => 0,
+                'type'=>1,
+                'aucode' => "boqii",
+                'subtype' => 'coupon',
+                'method' => 'ajax',
+                'upfile'=>"@".$_FILE,//绝对路径
+            );
+            $url = C('IMG_UPLOAD_DIR') ."/Server/upload.php";
+            $result = post_url($url,$post_data);
+            Log::info('result:'.var_export($result,1));
             return response()->json(['status'=>'ok']);
         }
         // 用于签名的公钥和私钥

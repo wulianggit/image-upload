@@ -27,6 +27,8 @@ $app = new Laravel\Lumen\Application(
 
 // $app->withEloquent();
 
+$app->configure('filesystems');
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
