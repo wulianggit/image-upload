@@ -79,11 +79,16 @@ class CallbackController extends Controller
     }
     
     public function upload_file($url,$filename){
+        $url =  "http://img.boqii.com/Server/upload.php";
         $fileinfo = explode('/',$filename);
         $file = realpath(storage_path().'/'.$fileinfo[2]);
         $fields= new \CURLFile(realpath($file));
         $post_data = array(
+            'id' => 0,
             'type' => 1,
+            'aucode' => "boqii",
+            'subtype' => 'article',
+            'method' => 'ajax',
             'upfile'=> $fields,//绝对路径
         );
         Log::info("realpath:".var_export($post_data,1));
