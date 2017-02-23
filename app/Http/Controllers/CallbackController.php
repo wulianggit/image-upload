@@ -25,7 +25,7 @@ class CallbackController extends Controller
             $path = storage_path().'/images/'.$file['name'];
             Log::info('tmpname:'.var_export($file['tmp_name'],1));
             Log::info('path:'.var_export($path,1));
-            $imagesize = getimagesize($file);
+            $imagesize = getimagesize($file['tmp_name']);
             Log::info('imagesize:'.var_export($imagesize,1));
             if($res = move_uploaded_file($file['tmp_name'],$path)){
                 Log::info('res:'.var_export($res,1));
