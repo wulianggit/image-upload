@@ -72,7 +72,14 @@ class CallbackController extends Controller
         Log::info('fileinfo:'.var_export($fileinfo, 1));
         $filePath = storage_path().'/'.$fileinfo[2];
         Log::info('filePath:'.$filePath);
-        file_put_contents($filePath,'http://'.$downloadUrl);
+        $curl = curl_init($downloadUrl);
+        //$filename = date("Ymdhis").".jpg";
+        curl_setopt($curl,CURLOPT_RETURNTRANSFER,1);
+        $imageData = curl_exec($curl);
+        curl_close($curl);
+        $tp = @fopen($filePath, 'a');
+        fwrite($tp, $imageData);
+        fclose($tp);
         return $ret = $this->upload_file($url,$data['filename']);
         //$ret = $this->upload_file($url,'http://'.$downloadUrl);
         //Log::info('result:'.var_export($ret,1));
